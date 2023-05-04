@@ -6,13 +6,41 @@ using namespace std;
 using date = string;
 
 namespace management{
-    EmplProfile::EmplProfile()
+    EmplProfile::EmplProfile(string pass, string login, string name, string employment)
     {
-        cout<<"Criando um novo perfil.\nDigite o nome de usuário: ";
-        string tray;
-        cin>>tray;
-        
-        this->info.insert(make_pair("Login", tray));
+        this->password = pass;
+        this->info.insert(make_pair("Login", login));
+        this->info.insert(make_pair("Nome", name));
+        this->info.insert(make_pair("Emprego", employment));
+        return EmplProfile;
+    }
+
+    EmplProfile::Create(vector<string> logins)
+    {
+
+        string login;
+        string name;
+        string employment;
+        string pass;
+
+        cout<<"Criando um novo perfil."<<endl;
+        bool k = false;
+        while(!k)
+        {
+            cout<<"Digite o nome de usuário: ";
+            cin>>login;
+            k = true;
+            for(int i = 0; i < logins.size(); i ++)
+            {
+                if(login == logins[i])
+                {
+                    k = false;
+                    break;
+                    cout<<"Esse nome de usuário já está em uso.\n";
+                }
+                
+            }
+        }
         
         while(true)
         {
@@ -23,7 +51,7 @@ namespace management{
             cin>>passW[1];
             if(passW[0] == passW[1])
             {
-                this->password = passW[0];
+                pass = passW[0];
                 break;
             }
             else
@@ -32,27 +60,27 @@ namespace management{
             }
         }
         cout<<"Digite o nome do funcionário: ";
-        cin>>tray;
-        info.insert(make_pair("Nome", tray));
+        cin>>name;
 
         cout<<"Digite a função do funcionário: ";
-        cin>>tray;
+        cin>>employment;
         bool k = true;
         while(k)
         {
-            if(tray == "Médico")
+            if(employment == "Médico" || employment == "Atendente")
             {
-                cout<<"Somente gerentes podem adicionar médicos.\nPor favor, digite a função do funcionário: ";
-                cin>>tray;
+                cout<<"Contas com essa função só podem ser criadas por gerentes.\nPor favor, digite a função do funcionário: ";
+                cin>>employment;
             }
             else
             {
                 k = false;
             }
         }
-        info.insert(make_pair("Emprego", tray));
         
         cout<<"Conta criada.\n";
+
+        return new EmplProfile::EmplProfile(pass, login, name, employment);
     }
 
     //Autenticação de usuário
@@ -79,4 +107,7 @@ namespace management{
     {
         return "\n0 - Deslogar\n1 - Ver sua agenda\n2 - Ver suas informações\n";
     }
+
+    void 
+
 }
