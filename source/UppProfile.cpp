@@ -16,25 +16,26 @@ namespace management
         map<string, int> specialities;
 
         for(int i = 0; i < employees.size(); i++)
-        {
-            //ManagerProfile* manager = dynamic_cast<ManagerProfile*>(logedAs);
+        {   
+            /*
+            cout<<"Printando informações do usuário:\n";
+            printMap<string, string>((*(employees[i])).info);
+            */
             if((*(employees[i])).getField("Emprego") == "Médico")
             {
                 string spec = (*(employees[i])).getField("Especialidade");
-                if(spec != "Desconhecido")
+                auto sp = specialities.find(spec);
+                if(sp == specialities.end())
                 {
-                    auto sp = specialities.find(spec);
-                    if(sp == specialities.end())
-                    {
-                        specialities.insert(make_pair(spec, 1));
-                    }
-                    else
-                    {
-                        (*sp).second += 1;
-                    }
+                    specialities.insert(make_pair(spec, 1));
+                }
+                else
+                {
+                    (*sp).second += 1;
                 }
             }
         }
+
         return specialities;
     }
 
@@ -64,6 +65,18 @@ namespace management
         return -1;
     }
 
+    int UppProfile::searchByLogin(vector<EmplProfile*> employees, string login)
+    {
+        for(int i = 0; i < employees.size(); i++)
+        {
+            if((*(employees[i])).getField("Login") == login)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     void UppProfile::showEmplSchedule(vector<EmplProfile*> employees, string name)
     {
         int x = searchByName(employees, name);
@@ -80,7 +93,7 @@ namespace management
     string UppProfile::actionList()
     {
         string k = EmplProfile::actionList();
-        k.append("3 - Pesquisar especialidades\n4 - Pesquisar médicos\n5 - Visualizar agenda de um médico\n");
+        k.append("3 - Visualizar todas as especialidades\n4 - Visualizar todos os médicos médicos\n5 - Visualizar agenda de um médico\n");
         return k;
     }
 }
