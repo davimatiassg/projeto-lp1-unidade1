@@ -1,22 +1,12 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include <header.h>
+#include "header.h"
 using namespace std;
-using namespace management;
+using date = string;
 
-//Classe básica, contém componentes do perfil de qualquer usuário.
-class EmplProfile {
-
-protected: 
-    string password; //Senha da conta
-public:
-    
-    map<string, date> schedule;  //Agenda do funcionário
-    map<string, string> info;       //Informações adicionais
-    
-    
-    EmplProfile()
+namespace management{
+    EmplProfile::EmplProfile()
     {
         cout<<"Criando um novo perfil.\nDigite o nome de usuário: ";
         string tray;
@@ -54,15 +44,16 @@ public:
             cin>>tray;
             info.insert(make_pair("Especialidade", tray));
         }
+        cout<<"Conta criada.\n";
     }
 
     //Autenticação de usuário
-    bool auth(string pass){
+    bool EmplProfile::auth(string pass){
         return (pass == this->password);
     }
 
     //Wrapper de consulta aos mapas de informações.
-    string getField(string field)
+    string EmplProfile::getField(string field)
     {
         if(info.find(field) != info.end())
         {
@@ -75,8 +66,8 @@ public:
     }
 
     //Listagem de ações para este funcionário
-    virtual string actionList()
+    string EmplProfile::actionList()
     {
         return "\n0 - Deslogar\n1 - Ver sua agenda\n2 - Ver suas informações\n";
     }
-};
+}
