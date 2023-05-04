@@ -37,18 +37,27 @@ namespace management{
 
         cout<<"Digite a função do funcionário: ";
         cin>>tray;
-        info.insert(make_pair("Emprego", tray));
-        if(tray == "Médico")
+        bool k = true;
+        while(k)
         {
-            cout<<"Digite a especialidade do médico: ";
-            cin>>tray;
-            info.insert(make_pair("Especialidade", tray));
+            if(tray == "Médico")
+            {
+                cout<<"Somente gerentes podem adicionar médicos.\nPor favor, digite a função do funcionário: ";
+                cin>>tray;
+            }
+            else
+            {
+                k = false;
+            }
         }
+        info.insert(make_pair("Emprego", tray));
+        
         cout<<"Conta criada.\n";
     }
 
     //Autenticação de usuário
     bool EmplProfile::auth(string pass){
+        //cout<<"Senha contest\n"<< "'"<<pass<<"' vs '"<<password<<"'\n";
         return (pass == this->password);
     }
 
