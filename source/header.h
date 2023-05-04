@@ -25,17 +25,24 @@ namespace management
         string password;
     public:
         //Agenda do funcionário
-        map<string, date> schedule;
+        map<string, date> schedule;//TODO
         //Informações adicionais (Nome, Login, Profissão, Documentação...)
         map<string, string> info;     
         //Construtor
-        EmplProfile();
+        EmplProfile(string pass, string login, string name, string employment);
+        //Método de Setup por usuário
+        virtual EmplProfile* Create(vector<string> logins);
         //Autenticação de usuário
         bool auth(string pass);
         //Wrapper de consulta aos mapas de informações.
         string getField(string field);
         //Listagem de ações para este funcionário
         virtual string actionList();
+        //Método para salvar os dados dessa conta
+        virtual void Save();
+        //Método de recuperação da conta após reinicialização
+        virtual void Reload();
+
     };
 
     //Classe base para contas com acesso administrativo, como atendentes e gerentes.
@@ -59,6 +66,8 @@ namespace management
     class AccProfile: public UppProfile
     {
     public:
+        //Método de Setup por usuário
+        AccProfile* Create(vector<string> logins) final;//TODO
         //Marcar um compromisso na agenda de um médico
         void assignSchedule(EmplProfile medic);
         //Listar as ações dessa conta.
@@ -71,6 +80,8 @@ namespace management
         //Vetor de Empregados
         vector<EmplProfile*>& employees;
     public:
+        //Método de Setup por usuário
+        ManagerProfile* Create(vector<string> logins) final;
         //Construtor
         ManagerProfile(vector<EmplProfile*>& emp);
         //Adicionar um médico à equipe
@@ -81,6 +92,10 @@ namespace management
         void removeMedic();
         //Listar as ações dessa conta.
         string actionList() final;
+        //Método para salvar os dados dessa conta
+        void Save() final;//TODO
+        //Método de recuperação da conta após reinicialização
+        void Reload() final;//TODO
     };
 
 }
