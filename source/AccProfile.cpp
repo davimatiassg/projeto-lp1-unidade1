@@ -1,14 +1,14 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include <header.h>
+#include "header.h"
 using namespace std;
-using namespace management;
+//using namespace management;
+using date = string;
 
-class AccProfile: public UppProfile
+namespace management
 {
-public:
-    void assignSchedule(EmplProfile medic)
+    void AccProfile::assignSchedule(EmplProfile medic)
     {
         string desc;
         date dt;
@@ -20,10 +20,10 @@ public:
         c.append(desc);
         medic.schedule.insert(make_pair(c, dt));
     }
-    string actionList() final
+    string AccProfile::actionList()
     {
         string k = UppProfile::actionList();
         k.append("6 - Agendar uma consulta com um médico\n");
         return k;
     }
-};
+}
