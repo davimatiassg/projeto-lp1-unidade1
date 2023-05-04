@@ -1,8 +1,10 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include <header.h>
-#include <windows.h>
+#include "header.h"
+
+#include <string>
+//#include <windows.h>
 
 using namespace std;
 using namespace management;
@@ -11,33 +13,13 @@ using namespace management;
 
 int main()
 {
-	cout<<"Iniciando o sistema\n";
-
-	for(int i = 0; i < 15; i++)
-	{
-    cout<<"\r[";
-    for(int j = 0; j < 15; j++)
-    {
-      if(i >= j)
-      {
-        cout<<"=";
-      }
-      else
-      {
-        cout<<" ";
-      }
-      
-    }
-    cout<<"]";
-		Sleep(100);
-	}
   	cout<<"\nSistema Online! Iniciando o primeiro acesso."<<endl;
 
-  	std::vector<EmplProfile> accounts;
+  	std::vector<management::EmplProfile*> accounts;
+    ManagerProfile m = ManagerProfile(accounts);
+  	accounts.push_back(&m);
 
-  	accounts.push_back(ManagerProfile(accounts));
-
-  	EmplProfile logedAs;
+  	EmplProfile *logedAs;
   	string status = "deslogado";
   	string tray;
   	while(true)
@@ -51,31 +33,38 @@ int main()
   			{
   				cout<<"Selecione o tipo de conta:\n0 - Conta de funcionário\n1 - Conta de atendente";
   				cin>>tray;
-  				if(tray == "0"){accounts.push_back(EmplProfile());}
-  				else if(tray == "1"){accounts.push_back(AccProfile());}
-  				else{cout<<"Ação inválida. Tente novamente.\n"}
+          
+  				if(tray == "0"){EmplProfile *e = new EmplProfile(); accounts.push_back(e);}
+  				else if(tray == "1"){AccProfile *a = new AccProfile(); accounts.push_back(a);}
+  				else{cout<<"Ação inválida. Tente novamente.\n";}
   			}
   			else if(tray == "1")
   			{
-  				cout<<"Insira o nome de usuário"
+  				cout<<"Insira o nome de usuário";
   				cin>>tray;
-  				int x = accounts[0].SearchByName(tray, accounts);
-  				cout<<"Insira a senha"
-  				cin>>tray;
-  				if(x != -1){
-  					if(accounts[x].auth(tray)){
-  						logedAs = accounts[x];
-  						cout<<"Logado com sucesso! Olá, " << logedAs.info["Nome"]<<endl;
-  						status = "logado como " + logedAs.info["Login"];
+          ManagerProfile* manager = dynamic_cast<ManagerProfile*>(accounts[0]);
+          if(manager != nullptr)
+          {
+            int x = (*manager).searchByName(accounts, tray);
+            cout<<"Insira a senha";
+            cin>>tray;
+            if(x != -1){
+              if((*(accounts[x])).auth(tray)){
+                logedAs = accounts[x];
+                cout<<"Logado com sucesso! Olá, " << (*logedAs).info["Nome"]<<endl;
+                status = "logado como " + (*logedAs).info["Login"];
 
-  					}else{cout<<"Informações de entrada não reconhecidas.\n";}
-  				}else {cout<<"Informações de entrada não reconhecidas.\n";}
-  			}else{cout<<"Ação inválida. Tente novamente.\n"}
+              }else{cout<<"Informações de entrada não reconhecidas.\n";}
+            }else {cout<<"Informações de entrada não reconhecidas.\n";}
+          }
+          else{cerr<<"Ocorreu um erro: referência à conta de gerente é nula.\n";}
+  				
+  			}else{cout<<"Ação inválida. Tente novamente.\n";}
   		}
   		else
   		{
-  			cout<<"Você pode executar as seguintes ações:"<<logedAs.actionList();
-  			cint>>tray;
+  			cout<<"Você pode executar as seguintes ações:"<<(*logedAs).actionList();
+  			cin>>tray;
 
   			if(tray == "0")
   			{
@@ -85,33 +74,59 @@ int main()
   			else if(tray == "1")
   			{
   				cout<<"Imprimindo informações\n";
-  				printMap<string, string>(logedAs.info):
+  				printMap<string, string>((*logedAs).info);
   			}
   			else if(tray == "2")
   			{
   				cout<<"Imprimindo agenda\n";
-  				printMap<string, date>(logedAs.schedule):
+  				printMap<string, date>((*logedAs).schedule);
   			}
   			else if(tray == "3")
   			{
-  				cout<<"Imprimindo especialidades disponíveis\n";
-  				printMap<string, int>(logedAs.schedule):
+          UppProfile& upperUser = dynamic_cast<UppProfile&>((*logedAs));
+          if(upperUser != nullptr){
+    				cout<<"Imprimindo especialidades disponíveis\n";
+    				printMap<string, date>((*logedAs).schedule);
+          }else{cerr<<"Ocorreu um erro: a opção selecionada está limitada à contas de acesso superior.\n";}
   			}
   			else if(tray == "4")
   			{
-  				cout<<"Imprimindo especialidades disponíveis\n";
-  				vector<EmplProfile> v = logedAs.searchByEmployment("Médico"):
-  				for(int i = 0; i < v.size(); i ++)
-			    {
-			        cout<< v[i]["Especialidade"] << endl;
-			    }
+          UppProfile& upperUser = dynamic_cast<UppProfile&>((*logedAs));
+          if(upperUser != nullptr){
+    				cout<<"Imprimindo especialidades disponíveis\n";
+  				  vector<EmplProfile> v = upperUser.searchByEmployment(accounts, "Médico");
+    				for(int i = 0; i < v.size(); i ++)
+  			    {
+  			        cout<< v[i].getField("Especialidade") << endl;
+            }
+          }else{cerr<<"Ocorreu um erro: a opção selecionada está limitada à contas de acesso superior.\n";}
   			}
   			else if(tray == "5")
   			{
-  				cout<<"Insira o nome do funcionário\n";
-  				cin>>tray;
-  				logedAs.showEmplSchedule(accounts[tray]);
+          UppProfile& upperUser = dynamic_cast<UppProfile&>((*logedAs));
+          if(upperUser != nullptr)
+          {
+            cout<<"Insira o nome do funcionário\n";
+            cin>>tray;
+            upperUser.showEmplSchedule(accounts, tray);
+          }else{cerr<<"Ocorreu um erro: a opção selecionada está limitada à contas de acesso superior.\n";}	
   			}
+        else if(tray == "6")
+        {
+          UppProfile& accountant = dynamic_cast<AccProfile&>((*logedAs));
+          if(accountant != nullptr)
+          {
+            cout<<"Insira o nome do funcionário\n";
+            cin>>tray;
+            accountant.showEmplSchedule(accountant.searchByName(accounts, tray));
+          }else{cerr<<"Ocorreu um erro: a opção selecionada está limitada às contas de atendentes.\n";}
+
+          ManagerProfile& manager = dynamic_cast<ManagerProfile&>((*logedAs));
+          if(manager != nullptr)
+          {
+            
+          }else{cerr<<"Ocorreu um erro: a opção selecionada está limitada às contas de gerência.\n";} 
+        }
   		}
   	}
 
