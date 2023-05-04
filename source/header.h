@@ -47,6 +47,8 @@ namespace management
         vector<EmplProfile> searchByEmployment(vector<EmplProfile*> employees, string employment);
         //Pesquisar um empregado pelo nome e retornar o seu índice no vetor de empregados.
         int searchByName(vector<EmplProfile*> employees, string name);
+        //Pesquisar um empregado pelo nome de login e retornar o seu índice no vetor de empregados.
+        int searchByLogin(vector<EmplProfile*> employees, string login);
         //Mostra na tela a agenda de um funcionário.
         void showEmplSchedule(vector<EmplProfile*> employees, string name);
         //Listar as ações dessa conta.
