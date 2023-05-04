@@ -16,7 +16,14 @@ namespace management{
 
     void ManagerProfile::addMedic()
     {
+        cout<<"\nCriando um novo médico. Quando a função do funcionário for perguntada, por favor, digite '_'.\n";
         EmplProfile * medic = new EmplProfile();
+        string tray;
+        cout<<"Digite a especialidade do médico: ";
+        cin>>tray;
+        (*medic).info["Emprego"] = "Médico";
+        //(*medic).info.insert(make_pair("Emprego", "Médico"));
+        (*medic).info.insert(make_pair("Especialidade", tray));
         employees.push_back(medic);
     }
 
@@ -66,7 +73,7 @@ namespace management{
     string ManagerProfile::actionList()
     {
         string k = UppProfile::actionList();
-        k.append("6 - Adicionar um médico\n7 - Alterar a especialidade de um médico\n8 - Remover um médico\n");
+        k.append("6 - Adicionar um médico\n7 - Alterar informações de um funcionário\n8 - Remover um médico\n");
         return k;
     }
 };
