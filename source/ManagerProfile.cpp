@@ -1,43 +1,39 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include <header.h>
+#include "header.h"
 using namespace std;
-using namespace management;
+//using namespace management;
+using date = string;
 
-class ManagerProfile: public UppProfile
-{
-private:
-    vector<EmplProfile>& employees;
-public:
-    ManagerProfile(vector<EmplProfile>& emp) : UppProfile(), employees(emp) 
+namespace management{
+
+    ManagerProfile::ManagerProfile(vector<EmplProfile*>& emp) : employees(emp)
     {
-        cout<<"Criando conta de Gerente\n";
-        UppProfile();
-        this->employees = emp;
+        cout<<"Criação da conta de Gerente concluida.\n";
     }
 
 
-    void addMedic()
+    void ManagerProfile::addMedic()
     {
-        EmplProfile medic = EmplProfile();
+        EmplProfile * medic = new EmplProfile();
         employees.push_back(medic);
     }
 
-    void editMedic()
+    void ManagerProfile::editMedic()
     {
         string mSel;
         cout<<"\nDigite o nome do médico a ser editado:\n";
         cin>>mSel;
-        int idx = searchByName(mSel, employees);
+        int idx = searchByName(employees, mSel);
         if(idx != -1){
             cout<<"\nInformações:\n";
-            map<string, string>& medicInfo = employees[idx].info;
-            printMap<string, string>(medicInfo);
+            map<string, string> * medicInfo = & ((*(employees[idx])).info);
+            printMap<string, string>(*medicInfo);
             cout<<"\nDigite o nome da informação a ser alterada:\n";
             cin>>mSel;
-            auto pt = medicInfo.find(mSel);
-            if(pt != medicInfo.end())
+            auto pt = (*medicInfo).find(mSel);
+            if(pt != (*medicInfo).end())
             {
                 cout<<"\nDigite a nova " << mSel << ":\n";
                 cin>>mSel;
@@ -51,12 +47,12 @@ public:
         }
     }
 
-    void removeMedic()
+    void ManagerProfile::removeMedic()
     {
         string mSel;
         cout<<"\nDigite o nome do médico a ser editado:\n";
         cin>> mSel;
-        int idx = searchByName(mSel, employees);
+        int idx = searchByName(employees, mSel);
         if(idx != -1){
             employees.erase(employees.begin() + idx);
             cout<<"Médico apagado com sucesso.\n";
@@ -67,10 +63,11 @@ public:
         }
 
     }
-    string actionList() final
+    string ManagerProfile::actionList()
     {
         string k = UppProfile::actionList();
         k.append("6 - Adicionar um médico\n7 - Alterar a especialidade de um médico\n8 - Remover um médico\n");
         return k;
     }
 };
+
