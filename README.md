@@ -6,15 +6,24 @@ Suzyene é gestora de RH de uma grande rede de hospitais e deseja criar um siste
 
 a.	O perfil de atendente deve ter um menu com as seguintes opções:
   i.	Listar todos os médicos por nome e suas respectivas funções;
+  
   ii.	Listar todas as especialidades disponíveis e a quantidade de profissionais de cada uma;
-  iii.	Agendar horário para um determinado médico (nome e dia/horário)
-  iv.	Ver todos os agendamentos de uma determinado médico (pesquisar pelo nome)
+  
+  iii.	Agendar horário para um determinado médico (nome e dia/horário);
+  
+  iv.	Ver todos os agendamentos de uma determinado médico (pesquisar pelo nome);
+  
 b.	O perfil de gestor deverá ter uma senha de acesso (admin) para evitar que estranhos acessem informações indevidas e conter os seguintes itens de menu:
   i.	Listar todos os médicos por nome e suas respectivas funções;
+  
   ii.	Listar todas as especialidades disponíveis e a quantidade de profissionais de cada uma;
+  
   iii.	Adicionar um novo médico;
-  iv.	Ver todos os agendamentos de uma determinado médico (pesquisar pelo nome)
+  
+  iv.	Ver todos os agendamentos de uma determinado médico (pesquisar pelo nome);
+  
   v.	Alterar a especialidade de um médico;
+  
   vi.	Excluir um médico;
 
 Para o projeto você deverá considerar os seguintes aspectos:
