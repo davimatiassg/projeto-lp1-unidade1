@@ -12,7 +12,7 @@ namespace management{
     {
         cout<<"Criação da conta de Gerente concluida.\n";
     }
-
+    
 
     void ManagerProfile::addMedic()
     {
