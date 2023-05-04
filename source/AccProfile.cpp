@@ -14,12 +14,12 @@ namespace management
         date dt;
         cout<< "\nInsira a data da consulta: ";
         cin >> dt;
-        cout<< "\nInsira a descrição da consulta";
+        cout<< "\nInsira a descrição da consulta ";
         cin >> desc;
         string c = "Consulta: ";
         c.append(desc);
         medic.schedule.insert(make_pair(c, dt));
-    }
+        cout<<c <<":" << dt << " Criada com sucesso\n";
     string AccProfile::actionList()
     {
         string k = UppProfile::actionList();
