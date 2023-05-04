@@ -20,6 +20,7 @@ namespace management
         c.append(desc);
         medic.schedule.insert(make_pair(c, dt));
         cout<<c <<":" << dt << " Criada com sucesso\n";
+    }
     string AccProfile::actionList()
     {
         string k = UppProfile::actionList();
