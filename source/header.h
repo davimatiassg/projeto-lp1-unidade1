@@ -1,16 +1,26 @@
 #ifndef HOSPITAL_MANAGEMENT
 #define HOSPITAL_MANAGEMENT
-#include "misc_functions.cpp"
 
+#include <string>
+using namespace std; 
 using date = string;
-
 
 namespace management
 {
 
+    //Função geral para printar informações e agenda guardadas em mapa.
+    template<typename T1, typename T2>
+    void printMap(map<T1, T2> m)
+    {
+        for(typename map<T1, T2>::iterator it = m.begin(); it != m.end(); it++)
+        {
+            cout<<(*it).first << ": " << (*it).second << endl;
+        }
+    }
+
     //Classe básica para perfis de funcionários gerais (médicos, enfermeiros e afins).
     class EmplProfile{
-    protected:
+    private:
         //Senha da conta
         string password;
     public:
@@ -32,13 +42,13 @@ namespace management
     class UppProfile: public EmplProfile{
     public:
         //Ver todas as especialidades médicas e a quantidade de profissionais para cada uma.
-        map<string, int> getSpecialities(vector<EmplProfile> employees);
+        map<string, int> getSpecialities(vector<EmplProfile*> employees);
         //Retornar um vetor com todos os médicos dentre os funcionários cadastrados.
-        vector<EmplProfile> searchByEmployment(vector<EmplProfile> employees, string employment);
+        vector<EmplProfile> searchByEmployment(vector<EmplProfile*> employees, string employment);
         //Pesquisar um empregado pelo nome e retornar o seu índice no vetor de empregados.
-        int searchByName(string name, vector<EmplProfile> employees);
+        int searchByName(vector<EmplProfile*> employees, string name);
         //Mostra na tela a agenda de um funcionário.
-        void showEmplSchedule(string name, vector<EmplProfile> employees);
+        void showEmplSchedule(vector<EmplProfile*> employees, string name);
         //Listar as ações dessa conta.
         virtual string actionList() override;
     };
@@ -57,10 +67,10 @@ namespace management
     class ManagerProfile: public UppProfile {
     private:
         //Vetor de Empregados
-        vector<EmplProfile>& employees;
+        vector<EmplProfile*>& employees;
     public:
         //Construtor
-        ManagerProfile(vector<EmplProfile>& emp) : UppProfile(), employees(emp);
+        ManagerProfile(vector<EmplProfile*>& emp);
         //Adicionar um médico à equipe
         void addMedic();
         //Editar informações de um médico, inclusive sua especialidade
