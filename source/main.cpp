@@ -57,7 +57,7 @@ int main()
               }else{cout<<"Informações de entrada não reconhecidas.\n";}
             }else {cout<<"Informações de entrada não reconhecidas.\n";}
           }
-          else{cerr<<"Ocorreu um erro: referência à conta de gerente é nula.\n";}
+          else{cout<<"Ocorreu um erro: referência à conta de gerente é nula.\n";}
   				
   			}else{cout<<"Ação inválida. Tente novamente.\n";}
   		}
@@ -86,20 +86,20 @@ int main()
           UppProfile& upperUser = dynamic_cast<UppProfile&>((*logedAs));
           if(upperUser != nullptr){
     				cout<<"Imprimindo especialidades disponíveis\n";
-    				printMap<string, date>((*logedAs).schedule);
-          }else{cerr<<"Ocorreu um erro: a opção selecionada está limitada à contas de acesso superior.\n";}
+    				printMap<string, int>((*upperUser).getSpecialities(accounts));
+          }else{cout<<"Ocorreu um erro: a opção selecionada está limitada à contas de acesso superior.\n";}
   			}
   			else if(tray == "4")
   			{
           UppProfile& upperUser = dynamic_cast<UppProfile&>((*logedAs));
           if(upperUser != nullptr){
     				cout<<"Imprimindo especialidades disponíveis\n";
-  				  vector<EmplProfile> v = upperUser.searchByEmployment(accounts, "Médico");
+  				  vector<EmplProfile> v = (*upperUser).searchByEmployment(accounts, "Médico");
     				for(int i = 0; i < v.size(); i ++)
   			    {
   			        cout<< v[i].getField("Especialidade") << endl;
             }
-          }else{cerr<<"Ocorreu um erro: a opção selecionada está limitada à contas de acesso superior.\n";}
+          }else{cout<<"Ocorreu um erro: a opção selecionada está limitada à contas de acesso superior.\n";}
   			}
   			else if(tray == "5")
   			{
@@ -108,8 +108,8 @@ int main()
           {
             cout<<"Insira o nome do funcionário\n";
             cin>>tray;
-            upperUser.showEmplSchedule(accounts, tray);
-          }else{cerr<<"Ocorreu um erro: a opção selecionada está limitada à contas de acesso superior.\n";}	
+            (*upperUser).showEmplSchedule(accounts, tray);
+          }else{cout<<"Ocorreu um erro: a opção selecionada está limitada à contas de acesso superior.\n";}	
   			}
         else if(tray == "6")
         {
@@ -118,15 +118,35 @@ int main()
           {
             cout<<"Insira o nome do funcionário\n";
             cin>>tray;
-            accountant.showEmplSchedule(accountant.searchByName(accounts, tray));
-          }else{cerr<<"Ocorreu um erro: a opção selecionada está limitada às contas de atendentes.\n";}
+            (*accountant).showEmplSchedule((*accountant).searchByName(accounts, tray));
+          }else{cout<<"Ocorreu um erro: a opção selecionada está limitada às contas de atendentes.\n";}
 
           ManagerProfile& manager = dynamic_cast<ManagerProfile&>((*logedAs));
           if(manager != nullptr)
           {
-            
-          }else{cerr<<"Ocorreu um erro: a opção selecionada está limitada às contas de gerência.\n";} 
+            (*manager).addMedic();
+          }else{cout<<"Ocorreu um erro: a opção selecionada está limitada às contas de gerência.\n";} 
         }
+        else if(tray == "7")
+        {
+
+          ManagerProfile& manager = dynamic_cast<ManagerProfile&>((*logedAs));
+          if(manager != nullptr)
+          {
+            (*manager).editMedic();
+          }else{cout<<"Ocorreu um erro: a opção selecionada está limitada às contas de gerência.\n";} 
+
+        }
+        else if(tray == "8")
+        {
+
+          ManagerProfile& manager = dynamic_cast<ManagerProfile&>((*logedAs));
+          if(manager != nullptr)
+          {
+            (*manager).removeMedic();
+          }else{cout<<"Ocorreu um erro: a opção selecionada está limitada às contas de gerência.\n";} 
+        }
+        else{cout<<"Operação inválida\n";}
   		}
   	}
 
