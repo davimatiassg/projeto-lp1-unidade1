@@ -1,22 +1,26 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include <header.h>
+#include "header.h"
+#include "misc_functions.cpp"
 using namespace std;
-using namespace management;
+//using namespace management;
+using date = string;
 
-class UppProfile: public EmplProfile
+
+namespace management
 {
-public:
-    map<string, int> getSpecialities(vector<EmplProfile> employees)
+
+    map<string, int> UppProfile::getSpecialities(vector<EmplProfile*> employees)
     {
         map<string, int> specialities;
 
         for(int i = 0; i < employees.size(); i++)
         {
-            if(employees[i].getField("Emprego") == "Médico")
+            //ManagerProfile* manager = dynamic_cast<ManagerProfile*>(logedAs);
+            if((*(employees[i])).getField("Emprego") == "Médico")
             {
-                string spec = employees[i].getField("Especialidade");
+                string spec = (*(employees[i])).getField("Especialidade");
                 if(spec != "Desconhecido")
                 {
                     auto sp = specialities.find(spec);
@@ -34,25 +38,25 @@ public:
         return specialities;
     }
 
-    vector<EmplProfile> searchByEmployment(vector<EmplProfile> employees, string employment)
+    vector<EmplProfile> UppProfile::searchByEmployment(vector<EmplProfile*> employees, const string employment)
     {
         vector<EmplProfile> empls;
         for(int i = 0; i < employees.size(); i++)
         {
-            if(employees[i].getField("Emprego") == employment)
+            if((*(employees[i])).getField("Emprego") == employment)
             {
-                empls.push_back(employees[i]);
+                empls.push_back(*(employees[i]));
             }
         }
         return empls;
     }
 
 
-    int searchByName(string name, vector<EmplProfile> employees)
+    int UppProfile::searchByName(vector<EmplProfile*> employees, string name)
     {
         for(int i = 0; i < employees.size(); i++)
         {
-            if(employees[i].getField("Nome") == name)
+            if((*(employees[i])).getField("Nome") == name)
             {
                 return i;
             }
@@ -60,12 +64,12 @@ public:
         return -1;
     }
 
-    void showEmplSchedule(string name, vector<EmplProfile> employees)
+    void UppProfile::showEmplSchedule(vector<EmplProfile*> employees, string name)
     {
-        int x = searchByName(name, employees);
+        int x = searchByName(employees, name);
         if(x != -1)
         {
-            printMap<string, date>(employees[x]);
+            printMap<string, date>((*(employees[x])).schedule);
         }
         else
         {
@@ -73,10 +77,11 @@ public:
         }
     }
 
-    virtual string actionList() override
+    string UppProfile::actionList()
     {
         string k = EmplProfile::actionList();
         k.append("3 - Pesquisar especialidades\n4 - Pesquisar médicos\n5 - Visualizar agenda de um médico\n");
         return k;
     }
-};
+}
+
