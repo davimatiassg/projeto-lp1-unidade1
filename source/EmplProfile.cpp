@@ -2,6 +2,9 @@
 #include <map>
 #include <vector>
 #include "header.h"
+#include "misc_functions.cpp"
+#include <fstream>
+
 using namespace std;
 using date = string;
 
@@ -12,10 +15,10 @@ namespace management{
         this->info.insert(make_pair("Login", login));
         this->info.insert(make_pair("Nome", name));
         this->info.insert(make_pair("Emprego", employment));
-        return EmplProfile;
+        Save();
     }
 
-    EmplProfile::Create(vector<string> logins)
+    EmplProfile* EmplProfile::Create(vector<string> logins)
     {
 
         string login;
@@ -64,7 +67,7 @@ namespace management{
 
         cout<<"Digite a função do funcionário: ";
         cin>>employment;
-        bool k = true;
+        k = true;
         while(k)
         {
             if(employment == "Médico" || employment == "Atendente")
@@ -79,8 +82,20 @@ namespace management{
         }
         
         cout<<"Conta criada.\n";
+        EmplProfile * e = new EmplProfile(pass, login, name, employment);
+        return e;
+    }
 
-        return new EmplProfile::EmplProfile(pass, login, name, employment);
+    void EmplProfile::Save()
+    {
+        //.dss é um tipo de arquivo customizado. Significa "data storage sucks :("
+        string n = this->info["Login"];
+        ofstream file;
+        saveMap<string, string>(this->info, "./database/info/" + n + ".dss");
+        saveMap<string, date>(this->schedule , "./database/scedule/" + n + ".dss");
+        file.open("./database/info/" + n + ".dss", fstream::app);
+        file<<"Senha;"<<this->password<<endl;
+       
     }
 
     //Autenticação de usuário
@@ -107,7 +122,5 @@ namespace management{
     {
         return "\n0 - Deslogar\n1 - Ver sua agenda\n2 - Ver suas informações\n";
     }
-
-    void 
 
 }

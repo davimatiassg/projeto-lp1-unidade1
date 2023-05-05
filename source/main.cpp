@@ -2,21 +2,60 @@
 #include <map>
 #include <vector>
 #include "header.h"
-
+#include <boost\filesystem.hpp>
 #include <string>
-//#include <windows.h>
+#include "misc_functions.cpp"
+
 
 using namespace std;
 using namespace management;
 
 
+void initializeDatabase(std::vector<management::EmplProfile*>& out, vector<string>& logins)
+{
+  for (const auto& entry : filesystem::directory_iterator("./database/info/")) 
+  {
+      if (entry.is_regular_file()) 
+      {
+        string name = entry.path().filename().string();
+        
+        map<string, string> info;
+        map<string, string> schedule;
+        EmplProfile * employee;
+        recoverMap(info, "./database/info/" + name);
+        if(info["Emprego"] == "Gerente")
+        {
+          employee = new ManagerProfile(info["Senha"], info["Login"], info["Nome"], info[Emprego], out);
+        }
+        else if (info["Emprego"] == "Atendente")
+        {
+         employee = new AccProfile(info["Senha"], info["Login"], info["Nome"], info[Emprego]);
+        }
+        else
+        {
+          employee = new EmplProfile(info["Senha"], info["Login"], info["Nome"], info[Emprego]);
+        }
+      
+        recoverMap(employee->schedule, "./database/schedule/" + name);
+        recoverMap(employee->info, "./database/info/" + name);
+        (employee->info).erase("Senha");
+        out.push_back(employee);
+        logins.push_back(name.substr(0, field.find(".")));
+      } 
+  }
+}
+
 
 int main()
 {
-  	cout<<"\nSistema Online! Iniciando o primeiro acesso."<<endl;
+    cout<<"\nIniciando Sistema"<<endl;
+    vector<management::EmplProfile*> accounts;
+    vector<string> logins;
+    initializeDatabase(accouts, logins);
+  	cout<<"\nSistema Online!"<<endl;
+    if(accounts.size() == 0) cout<< " Iniciando o primeiro acesso."<<endl;
 
-  	std::vector<management::EmplProfile*> accounts;
-    ManagerProfile m = ManagerProfile(accounts);
+  	    ManagerProfile m = ManagerProfile::Create(logins, accounts);
   	accounts.push_back(&m);
 
   	EmplProfile *logedAs;
@@ -37,12 +76,8 @@ int main()
         //Criar nova conta
   			if(tray == "0")
   			{
-  				cout<<"Selecione o tipo de conta:\n0 - Conta de funcionário\n1 - Conta de atendente\n";
-  				cin>>tray;
-          
-  				if(tray == "0"){EmplProfile *e = new EmplProfile(); accounts.push_back(e);}
-  				else if(tray == "1"){AccProfile *a = new AccProfile(); accounts.push_back(a);}
-  				else{cout<<"Ação inválida. Tente novamente.\n";}
+  				EmplProfile *e = new EmplProfile(); 
+          accounts.push_back(e);
   			}
 
         //Logar numa conta
@@ -90,7 +125,7 @@ int main()
   			else if(tray == "1")
   			{
           cout<<"Imprimindo agenda\n";
-          printMap<string, date>((*logedAs).schedule);
+          printMap<string, string>((*logedAs).schedule);
   				
   			}
         
@@ -156,7 +191,7 @@ int main()
             ManagerProfile* manager = dynamic_cast<ManagerProfile*>(logedAs);
             if(manager != nullptr)
             {
-              (*manager).addMedic();
+              (*manager).addFunc();
             }else{cout<<"Ocorreu um erro: a opção selecionada está limitada às contas de gerência.\n";} 
           }
         }
@@ -168,7 +203,7 @@ int main()
           ManagerProfile* manager = dynamic_cast<ManagerProfile*>(logedAs);
           if(manager != nullptr)
           {
-            (*manager).editMedic();
+            (*manager).editFunc();
           }else{cout<<"Ocorreu um erro: a opção selecionada está limitada às contas de gerência.\n";} 
 
         }
@@ -180,7 +215,7 @@ int main()
           ManagerProfile* manager = dynamic_cast<ManagerProfile*>(logedAs);
           if(manager != nullptr)
           {
-            (*manager).removeMedic();
+            (*manager).removeFunc();
           }else{cout<<"Ocorreu um erro: a opção selecionada está limitada às contas de gerência.\n";} 
         }
         else{cout<<"Operação inválida\n";}

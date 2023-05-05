@@ -3,7 +3,6 @@
 
 #include <string>
 using namespace std; 
-using date = string;
 
 namespace management
 {
@@ -25,7 +24,7 @@ namespace management
         string password;
     public:
         //Agenda do funcionário
-        map<string, date> schedule;//TODO
+        map<string, string> schedule;//TODO
         //Informações adicionais (Nome, Login, Profissão, Documentação...)
         map<string, string> info;     
         //Construtor
@@ -41,7 +40,6 @@ namespace management
         //Método para salvar os dados dessa conta
         virtual void Save();
         //Método de recuperação da conta após reinicialização
-        virtual void Reload();
 
     };
 
@@ -83,19 +81,15 @@ namespace management
         //Método de Setup por usuário
         ManagerProfile* Create(vector<string> logins) final;
         //Construtor
-        ManagerProfile(vector<EmplProfile*>& emp);
+        ManagerProfile(string pass, string login, string name, string employment, vector<EmplProfile*>& emp);
         //Adicionar um médico à equipe
-        void addMedic();
+        void addFunc();
         //Editar informações de um médico, inclusive sua especialidade
-        void editMedic();
+        void editFunc();
         //Remover um médico da equipe
-        void removeMedic();
+        void removeFunc();
         //Listar as ações dessa conta.
         string actionList() final;
-        //Método para salvar os dados dessa conta
-        void Save() final;//TODO
-        //Método de recuperação da conta após reinicialização
-        void Reload() final;//TODO
     };
 
 }

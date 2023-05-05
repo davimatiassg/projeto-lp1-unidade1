@@ -3,15 +3,13 @@
 #include <vector>
 #include "header.h"
 using namespace std;
-//using namespace management;
-using date = string;
 
 namespace management
 {
     void AccProfile::assignSchedule(EmplProfile medic)
     {
         string desc;
-        date dt;
+        string dt;
         cout<< "\nInsira a data da consulta: ";
         cin >> dt;
         cout<< "\nInsira a descrição da consulta ";

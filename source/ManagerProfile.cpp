@@ -3,77 +3,161 @@
 #include <vector>
 #include "header.h"
 using namespace std;
-//using namespace management;
-using date = string;
 
 namespace management{
 
-    ManagerProfile::ManagerProfile(vector<EmplProfile*>& emp) : employees(emp)
+    ManagerProfile::ManagerProfile(string pass, string login, string name, string employment, vector<EmplProfile*>& emp) : UppProfile(pass, login, name, employment), employees(emp)
     {
-        cout<<"Criação da conta de Gerente concluida.\n";
+        cout<<"Iniciação da conta de Gerente concluida.\n";
     }
     
-
-    void ManagerProfile::addMedic()
+    EmplProfile::Create(vector<string> logins, vector<EmplProfile*>& accs)
     {
-        cout<<"\nCriando um novo médico. Quando a função do funcionário for perguntada, por favor, digite '_'.\n";
-        EmplProfile * medic = new EmplProfile();
-        string tray;
-        cout<<"Digite a especialidade do médico: ";
-        cin>>tray;
-        (*medic).info["Emprego"] = "Médico";
-        //(*medic).info.insert(make_pair("Emprego", "Médico"));
-        (*medic).info.insert(make_pair("Especialidade", tray));
-        employees.push_back(medic);
+        string name;
+        string pass;
+
+        cout<<"Criando o perfil do usuário 'Gerente'."<<endl;
+        bool k = false;
+        while(true)
+        {
+            string passW[2];
+            cout<<"Digite a senha para o Gerente: ";
+            cin>>passW[0];
+            cout<<"Confirme a senha: ";
+            cin>>passW[1];
+            if(passW[0] == passW[1])
+            {
+                pass = passW[0];
+                break;
+            }
+            else
+            {
+                cout<<"As senhas devem ser iguais!\n";
+            }
+        }
+        cout<<"Digite o nome do Gerente: ";
+        cin>>name;
+        return new EmplProfile::ManagerProfile(pass, "Gerente", name, "Gerente", accs);
     }
 
-    void ManagerProfile::editMedic()
+
+    void ManagerProfile::addFunc()
+    {
+        string login;
+        string name;
+        string employment;
+        string pass;
+
+        cout<<"Criando um novo funcionário."<<endl;
+        bool k = false;
+        while(!k)
+        {
+            cout<<"Digite o nome de usuário do funcionário: ";
+            cin>>login;
+            k = true;
+            for(int i = 0; i < logins.size(); i ++)
+            {
+                if(login == logins[i])
+                {
+                    k = false;
+                    break;
+                    cout<<"Esse nome de usuário já está em uso.\n";
+                }
+                
+            }
+        }
+        
+        while(true)
+        {
+            string passW[2];
+            cout<<"Digite a senha do funcionário: ";
+            cin>>passW[0];
+            cout<<"Confirme a senha: ";
+            cin>>passW[1];
+            if(passW[0] == passW[1])
+            {
+                pass = passW[0];
+                break;
+            }
+            else
+            {
+                cout<<"As senhas devem ser iguais!\n";
+            }
+        }
+        cout<<"Digite o nome do funcionário: ";
+        cin>>name;
+
+        cout<<"Digite a função do funcionário: ";
+        cin>>employment;
+        EmplProfile e*;
+        if(employment == "Atendente")
+        {
+            e = new EmplProfile::AccProfile(pass, login, name, employment);
+        }
+        else
+        {
+            e = new EmplProfile::EmplProfile(pass, login, name, employment);
+            if(employment == "Médico")
+            {
+                string specialty;
+                cout<<"Digite a especialidade do médico: ";
+                cin>>specialty;
+                e->info.insert(make_pair("Especialidade", specialty));
+            }
+        }
+
+        cout<<"Novo " << employment  <<"adicionado."<<endl;
+        employees.push_back(e);
+    }
+
+    void ManagerProfile::editFunc()
     {
         string mSel;
-        cout<<"\nDigite o nome do médico a ser editado:\n";
+        cout<<"\nDigite o nome do funcionário a ser editado:\n";
         cin>>mSel;
         int idx = searchByName(employees, mSel);
         if(idx != -1){
             cout<<"\nInformações:\n";
-            map<string, string> * medicInfo = & ((*(employees[idx])).info);
-            printMap<string, string>(*medicInfo);
+            map<string, string> * FuncInfo = & ((*(employees[idx])).info);
+            printMap<string, string>(*FuncInfo);
             cout<<"\nDigite o nome da informação a ser alterada:\n";
             cin>>mSel;
-            auto pt = (*medicInfo).find(mSel);
-            if(pt != (*medicInfo).end())
+            auto pt = (*FuncInfo).find(mSel);
+            if(pt != (*FuncInfo).end())
             {
                 cout<<"\nDigite a nova " << mSel << ":\n";
                 cin>>mSel;
                 pt->second = mSel;
             }
             cout<<"Informação alterada com sucesso.\n";
+            employees[idx]->Save();
         }
         else
         {
-            cout<<"Médico não encontrado.\n";
+            cout<<"Funcionário não encontrado.\n";
         }
     }
 
-    void ManagerProfile::removeMedic()
+    void ManagerProfile::removeFunc()
     {
         string mSel;
-        cout<<"\nDigite o nome do médico a ser editado:\n";
+        cout<<"\nDigite o nome do funcionário a ser editado:\n";
         cin>> mSel;
         int idx = searchByName(employees, mSel);
         if(idx != -1){
             employees.erase(employees.begin() + idx);
-            cout<<"Médico apagado com sucesso.\n";
+            cout<<"Funcionário apagado com sucesso.\n";
         }
         else
         {
-            cout<<"Médico não encontrado.\n";
+            cout<<"Funcionário não encontrado.\n";
         }
 
     }
     string ManagerProfile::actionList()
     {
         string k = UppProfile::actionList();
-        k.append("6 - Adicionar um médico\n7 - Alterar informações de um funcionário\n8 - Remover um médico\n");
+        k.append("6 - Adicionar um funcionário\n7 - Alterar informações de um funcionário\n8 - Remover um funcionário\n");
         return k;
     }
 };

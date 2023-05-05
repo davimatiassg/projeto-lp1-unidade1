@@ -5,7 +5,6 @@
 #include "misc_functions.cpp"
 using namespace std;
 //using namespace management;
-using date = string;
 
 
 namespace management
@@ -82,7 +81,7 @@ namespace management
         int x = searchByName(employees, name);
         if(x != -1)
         {
-            printMap<string, date>((*(employees[x])).schedule);
+            printMap<string, string>((*(employees[x])).schedule);
         }
         else
         {
