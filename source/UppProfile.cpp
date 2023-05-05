@@ -9,7 +9,8 @@ using namespace std;
 
 namespace management
 {
-
+    UppProfile::UppProfile(string pass, string login, string name, string employment) : EmplProfile(pass, login, name, employment)
+    {}
     map<string, int> UppProfile::getSpecialities(vector<EmplProfile*> employees)
     {
         map<string, int> specialities;
@@ -20,7 +21,7 @@ namespace management
             cout<<"Printando informações do usuário:\n";
             printMap<string, string>((*(employees[i])).info);
             */
-            if((*(employees[i])).getField("Emprego") == "Médico")
+            if((*(employees[i])).getField("Emprego") == "Medico")
             {
                 string spec = (*(employees[i])).getField("Especialidade");
                 auto sp = specialities.find(spec);
@@ -85,14 +86,14 @@ namespace management
         }
         else
         {
-            cout<<"Empregado não encontrado\n";
+            cout<<"Empregado nao encontrado\n";
         }
     }
 
     string UppProfile::actionList()
     {
         string k = EmplProfile::actionList();
-        k.append("3 - Visualizar todas as especialidades\n4 - Visualizar todos os médicos médicos\n5 - Visualizar agenda de um médico\n");
+        k.append("3 - Visualizar todas as especialidades\n4 - Visualizar todos os medicos medicos\n5 - Visualizar agenda de um medico\n");
         return k;
     }
 }

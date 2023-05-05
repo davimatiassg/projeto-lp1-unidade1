@@ -15,7 +15,6 @@ namespace management{
         this->info.insert(make_pair("Login", login));
         this->info.insert(make_pair("Nome", name));
         this->info.insert(make_pair("Emprego", employment));
-        Save();
     }
 
     EmplProfile* EmplProfile::Create(vector<string> logins)
@@ -30,7 +29,7 @@ namespace management{
         bool k = false;
         while(!k)
         {
-            cout<<"Digite o nome de usuário: ";
+            cout<<"Digite o nome de usuario: ";
             cin>>login;
             k = true;
             for(int i = 0; i < logins.size(); i ++)
@@ -39,7 +38,7 @@ namespace management{
                 {
                     k = false;
                     break;
-                    cout<<"Esse nome de usuário já está em uso.\n";
+                    cout<<"Esse nome de usuario ja esta em uso.\n";
                 }
                 
             }
@@ -62,17 +61,17 @@ namespace management{
                 cout<<"As senhas devem ser iguais!\n";
             }
         }
-        cout<<"Digite o nome do funcionário: ";
+        cout<<"Digite o nome do funcionario: ";
         cin>>name;
 
-        cout<<"Digite a função do funcionário: ";
+        cout<<"Digite a funcao do funcionario: ";
         cin>>employment;
         k = true;
         while(k)
         {
-            if(employment == "Médico" || employment == "Atendente")
+            if(employment == "Medico" || employment == "Atendente")
             {
-                cout<<"Contas com essa função só podem ser criadas por gerentes.\nPor favor, digite a função do funcionário: ";
+                cout<<"Contas com essa funcao so podem ser criadas por gerentes.\nPor favor, digite a funcao do funcionario: ";
                 cin>>employment;
             }
             else
@@ -88,23 +87,23 @@ namespace management{
 
     void EmplProfile::Save()
     {
-        //.dss é um tipo de arquivo customizado. Significa "data storage sucks :("
+        //.dss e um tipo de arquivo customizado. Significa "data storage sucks :("
         string n = this->info["Login"];
         ofstream file;
         saveMap<string, string>(this->info, "./database/info/" + n + ".dss");
-        saveMap<string, date>(this->schedule , "./database/scedule/" + n + ".dss");
+        saveMap<string, date>(this->schedule , "./database/schedule/" + n + ".dss");
         file.open("./database/info/" + n + ".dss", fstream::app);
         file<<"Senha;"<<this->password<<endl;
        
     }
 
-    //Autenticação de usuário
+    //Autenticacao de usuario
     bool EmplProfile::auth(string pass){
         //cout<<"Senha contest\n"<< "'"<<pass<<"' vs '"<<password<<"'\n";
         return (pass == this->password);
     }
 
-    //Wrapper de consulta aos mapas de informações.
+    //Wrapper de consulta aos mapas de informacoes.
     string EmplProfile::getField(string field)
     {
         if(info.find(field) != info.end())
@@ -117,10 +116,10 @@ namespace management{
         }
     }
 
-    //Listagem de ações para este funcionário
+    //Listagem de acoes para este funcionario
     string EmplProfile::actionList()
     {
-        return "\n0 - Deslogar\n1 - Ver sua agenda\n2 - Ver suas informações\n";
+        return "\n0 - Deslogar\n1 - Ver sua agenda\n2 - Ver suas informacoes\n";
     }
 
 }

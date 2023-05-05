@@ -7,16 +7,6 @@ using namespace std;
 namespace management
 {
 
-    //Função geral para printar informações e agenda guardadas em mapa.
-    template<typename T1, typename T2>
-    void printMap(map<T1, T2> m)
-    {
-        for(typename map<T1, T2>::iterator it = m.begin(); it != m.end(); it++)
-        {
-            cout<<(*it).first << ": " << (*it).second << endl;
-        }
-    }
-
     //Classe básica para perfis de funcionários gerais (médicos, enfermeiros e afins).
     class EmplProfile{
     private:
@@ -30,7 +20,7 @@ namespace management
         //Construtor
         EmplProfile(string pass, string login, string name, string employment);
         //Método de Setup por usuário
-        virtual EmplProfile* Create(vector<string> logins);
+        static EmplProfile* Create(vector<string> logins);
         //Autenticação de usuário
         bool auth(string pass);
         //Wrapper de consulta aos mapas de informações.
@@ -46,6 +36,8 @@ namespace management
     //Classe base para contas com acesso administrativo, como atendentes e gerentes.
     class UppProfile: public EmplProfile{
     public:
+        //Construtor
+        UppProfile(string pass, string login, string name, string employment);
         //Ver todas as especialidades médicas e a quantidade de profissionais para cada uma.
         map<string, int> getSpecialities(vector<EmplProfile*> employees);
         //Retornar um vetor com todos os médicos dentre os funcionários cadastrados.
@@ -64,8 +56,8 @@ namespace management
     class AccProfile: public UppProfile
     {
     public:
-        //Método de Setup por usuário
-        AccProfile* Create(vector<string> logins) final;//TODO
+        //Construtor
+        AccProfile(string pass, string login, string name, string employment);
         //Marcar um compromisso na agenda de um médico
         void assignSchedule(EmplProfile medic);
         //Listar as ações dessa conta.
@@ -78,12 +70,13 @@ namespace management
         //Vetor de Empregados
         vector<EmplProfile*>& employees;
     public:
-        //Método de Setup por usuário
-        ManagerProfile* Create(vector<string> logins) final;
+    
         //Construtor
         ManagerProfile(string pass, string login, string name, string employment, vector<EmplProfile*>& emp);
+        //Método de Setup por usuário
+        static ManagerProfile* Create(vector<EmplProfile*>& accs, vector<string> logins);
         //Adicionar um médico à equipe
-        void addFunc();
+        void addFunc(vector<string> logins);
         //Editar informações de um médico, inclusive sua especialidade
         void editFunc();
         //Remover um médico da equipe
