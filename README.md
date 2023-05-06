@@ -7,7 +7,7 @@ O projeto foi construido inteiramente utilizando C++, para o sistema Windows. Fu
 
 ## Instruções de compilação
 
-Na pasta raiz do repositório, execute o seguinte comando para compilar o arquivo:
+Na pasta raiz do repositório, execute o seguinte comando para compilar o projeto:
 
 ```
 g++ -o HospitalSystem.exe ./source/*.cpp
