@@ -16,6 +16,14 @@ Em seguida, execute o arquivo pelo seguinte comando (ou abra-o como um aplicativ
 ```
 HospitalSystem.exe
 ```
+##Estrutura
+
+O sistema separa os arquivos das contas dos usuários nas duas pastas encontradas no diretório "database". Uma das pastas contém informações sobre a conta, enqusnto a outra contém a agenda de cada usuário.
+
+Os arquivos são salvos com a extensão customiada ".dss", que em nada difere de um arquivo de texto comum.
+O nome de login e a senha são armazenados nesses arquivos (nos da pasta info). Os mesmos login e senha usados para acessar a conta.
+
+Deletar o arquivo "./database/info/Gerente.dss" remove a conta de gerente do programa, o que faz com que a próxima inicialização dele ative, justamente, a criação de uma nova conta Gerente.
 
 
 # Descrição da atividade
