@@ -1,5 +1,26 @@
-# projeto-lp1-unidade1
- 
+# Descrição do projeto
+
+Este projeto foi realizado como requisito para obtenção de nota referente à matéria de LINGUAGENS DE PROGRAMAÇÃO 1, do curso de BACHARELADO EM TECNOLOGIA DA INFORMAÇÃO.
+Consiste na emulação de um sistema básico para a gerência de um hospital. Cada um dos funcionários tem direito a criar uma conta, mas apenas atendentes e a conta de gerência possuem acesso à ações admnistrativas.
+
+O projeto foi construido inteiramente utilizando C++, para o sistema Windows. Funcionalidade em demais S.O.'s não garantida.
+
+## Instruções de compilação
+
+Na pasta raiz do repositório, execute o seguinte comando para compilar o arquivo:
+
+```
+g++ -o HospitalSystem.exe ./source/*.cpp
+```
+Em seguida, execute o arquivo pelo seguinte comando (ou abra-o como um aplicativo comum, na pasta do projeto)
+```
+HospitalSystem.exe
+```
+
+
+# Descrição da atividade
+
+
 Suzyene é gestora de RH de uma grande rede de hospitais e deseja criar um sistema simplificado de visualização de médicos e suas especialidades.  O sistema deverá ter as seguintes características:
 
 1.	Ter dois perfis de usuários habilitados para utilizar o sistema (atendentes e  gestores);
