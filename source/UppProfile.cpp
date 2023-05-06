@@ -93,7 +93,7 @@ namespace management
     string UppProfile::actionList()
     {
         string k = EmplProfile::actionList();
-        k.append("3 - Visualizar todas as especialidades\n4 - Visualizar todos os medicos medicos\n5 - Visualizar agenda de um medico\n");
+        k.append("3 - Visualizar todas as especialidades\n4 - Visualizar todos os medicos\n5 - Visualizar agenda de um medico\n");
         return k;
     }
 }

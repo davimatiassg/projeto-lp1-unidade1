@@ -33,7 +33,7 @@ void recoverMap(map<T1, T2> * m, string FileName)
     {
 
         string field;
-        file>>field;
+        std::getline(file, field);
         if(file.eof()) break;
         string l, r, del;
         del = ";";

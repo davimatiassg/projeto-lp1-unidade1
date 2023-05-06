@@ -37,6 +37,13 @@ void initializeDatabase(std::vector<management::EmplProfile*>& out, vector<strin
     (employee->info).erase("Senha");
     out.push_back(employee);
     logins.push_back(name.substr(0, name.find(".")));
+
+    if(info["Emprego"] == "Gerente")
+    {
+      employee = out[0];
+      out[0] = out[out.size()-1];
+      out[out.size()-1] = employee;
+    }
     
   }
 }
@@ -96,8 +103,8 @@ int main()
                 cout<<"Logado com sucesso! Ola, " << (*logedAs).info["Nome"]<<endl;
                 status = "logado como " + (*logedAs).info["Login"];
 
-              }else{cout<<"Informacoes de entrada nao reconhecidas.\n" << "p<<" << tray<< ">>";}
-            }else {cout<<"Informacoes de entrada nao reconhecidas.\n"<< "u<<" << tray<< ">>";}
+              }else{cout<<"Informacoes de entrada nao reconhecidas.\n";}
+            }else {cout<<"Informacoes de entrada nao reconhecidas.\n";}
           }
           else{cout<<"Ocorreu um erro: referencia a conta de gerente e nula.\n";}
   				

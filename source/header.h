@@ -59,7 +59,7 @@ namespace management
         //Construtor
         AccProfile(string pass, string login, string name, string employment);
         //Marcar um compromisso na agenda de um médico
-        void assignSchedule(EmplProfile medic);
+        void assignSchedule(EmplProfile& medic);
         //Listar as ações dessa conta.
         string actionList() final;
     };

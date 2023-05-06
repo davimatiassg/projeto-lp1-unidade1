@@ -11,14 +11,15 @@ namespace management
     AccProfile::AccProfile(string pass, string login, string name, string employment) : UppProfile(pass, login, name, employment)
     {}
 
-    void AccProfile::assignSchedule(EmplProfile medic)
+    void AccProfile::assignSchedule(EmplProfile& medic)
     {
         string desc;
         string dt;
         cout<< "\nInsira a data da consulta: ";
         cin >> dt;
+        cin.ignore();
         cout<< "\nInsira a descricao da consulta ";
-        cin >> desc;
+        getline(cin, desc);
         string c = "Consulta: ";
         c.append(desc);
         medic.schedule.insert(make_pair(c, dt));
