@@ -12,7 +12,7 @@ namespace management{
         cout<<"Iniciacao da conta de Gerente concluida.\n";
     }
     
-    ManagerProfile* ManagerProfile::Create(vector<EmplProfile*>& accs, vector<string> logins)
+    ManagerProfile* ManagerProfile::Create(vector<EmplProfile*>& accs, vector<string>& logins)
     {
         string name;
         string pass;
@@ -36,6 +36,7 @@ namespace management{
                 cout<<"As senhas devem ser iguais!\n";
             }
         }
+        logins.push_back("Gerente");
         cout<<"Digite o nome do Gerente: ";
         cin>>name;
         ManagerProfile * m = new ManagerProfile(pass, "Gerente", name, "Gerente", accs);
@@ -43,7 +44,7 @@ namespace management{
     }
 
 
-    void ManagerProfile::addFunc(vector<string> logins)
+    void ManagerProfile::addFunc(vector<string>& logins)
     {
         string login;
         string name;
@@ -68,6 +69,8 @@ namespace management{
                 
             }
         }
+
+        logins.push_back(login);
         
         while(true)
         {
@@ -108,7 +111,7 @@ namespace management{
             }
         }
 
-        cout<<"Novo " << employment  <<"adicionado."<<endl;
+        cout<<name << ", o(a) " << employment  <<"(a), foi adicionado a equipe."<<endl;
         employees.push_back(e);
     }
 

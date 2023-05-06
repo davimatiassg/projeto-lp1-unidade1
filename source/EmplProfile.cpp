@@ -17,7 +17,7 @@ namespace management{
         this->info.insert(make_pair("Emprego", employment));
     }
 
-    EmplProfile* EmplProfile::Create(vector<string> logins)
+    EmplProfile* EmplProfile::Create(vector<string>& logins)
     {
 
         string login;
@@ -43,7 +43,7 @@ namespace management{
                 
             }
         }
-        
+        logins.push_back(login);
         while(true)
         {
             string passW[2];

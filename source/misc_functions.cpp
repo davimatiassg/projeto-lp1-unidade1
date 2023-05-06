@@ -38,7 +38,7 @@ void recoverMap(map<T1, T2> * m, string FileName)
         string l, r, del;
         del = ";";
         l = field.substr(0, field.find(del));
-        r = field.substr(field.find(del), field.size());
+        r = field.substr(field.find(del)+1, field.size());
         (*m).insert(make_pair(l, r));
     }
     file.close();

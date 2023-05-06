@@ -20,7 +20,7 @@ namespace management
         //Construtor
         EmplProfile(string pass, string login, string name, string employment);
         //Método de Setup por usuário
-        static EmplProfile* Create(vector<string> logins);
+        static EmplProfile* Create(vector<string>& logins);
         //Autenticação de usuário
         bool auth(string pass);
         //Wrapper de consulta aos mapas de informações.
@@ -74,9 +74,9 @@ namespace management
         //Construtor
         ManagerProfile(string pass, string login, string name, string employment, vector<EmplProfile*>& emp);
         //Método de Setup por usuário
-        static ManagerProfile* Create(vector<EmplProfile*>& accs, vector<string> logins);
+        static ManagerProfile* Create(vector<EmplProfile*>& accs, vector<string>& logins);
         //Adicionar um médico à equipe
-        void addFunc(vector<string> logins);
+        void addFunc(vector<string>& logins);
         //Editar informações de um médico, inclusive sua especialidade
         void editFunc();
         //Remover um médico da equipe
